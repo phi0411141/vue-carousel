@@ -46,7 +46,6 @@
 </template>
 <script>
 import autoplay from "./mixins/autoplay";
-import debounce from "./utils/debounce";
 import Navigation from "./Navigation.vue";
 import Pagination from "./Pagination.vue";
 import Slide from "./Slide.vue";
@@ -90,7 +89,6 @@ export default {
   },
   data() {
     return {
-      browserWidth: null,
       carouselWidth: 0,
       currentPage: 0,
       dragging: false,
@@ -115,6 +113,10 @@ export default {
     };
   },
   props: {
+    browserWidth:{
+      type: Number,
+      default: 0
+    },
     /**
      *  Adjust the height of the carousel for the current slide
      */
@@ -587,14 +589,6 @@ export default {
       }
     },
     /**
-     * Get the current browser viewport width
-     * @return {Number} Browser"s width in pixels
-     */
-    getBrowserWidth() {
-      this.browserWidth = window.innerWidth;
-      return this.browserWidth;
-    },
-    /**
      * Get the width of the carousel DOM element
      * @return {Number} Width of the carousel in pixels
      */
@@ -854,11 +848,6 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener(
-      "resize",
-      debounce(this.onResize, this.refreshRate)
-    );
-
     // setup the start event only if touch device or mousedrag activated
     if ((this.isTouch && this.touchDrag) || this.mouseDrag) {
       this.$refs["VueCarousel-wrapper"].addEventListener(
