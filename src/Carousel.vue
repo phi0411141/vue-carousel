@@ -608,6 +608,9 @@
        * Get the maximum height of the carousel active slides
        * @return {String} The carousel height
        */
+      getBrowserWidth(){
+        return this.browserWidth
+      },
       getCarouselHeight () {
         if (!this.adjustableHeight) {
           return 'auto';
